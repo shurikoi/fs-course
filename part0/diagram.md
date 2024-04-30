@@ -8,6 +8,8 @@ sequenceDiagram
     server-->>browser: 302 Found
     deactivate server
 
+    Note right of browser: This is a URL redirect, with which the server asks the browser to perform a new HTTP GET request to the address defined in the header's Location - /exampleapp/notes.
+
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
