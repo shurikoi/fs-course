@@ -1,11 +1,15 @@
 const Header = ({ course }) => <h1>{course}</h1>
 
+const Part = ({ part }) => (
+  <p>
+    {part[0]} {part[1]}
+  </p>
+)
+
 const Content = ({ parts }) => (
   <>
     {parts.map((part, index) => (
-      <p key={index}>
-        {part[0]} {part[1]}
-      </p>
+      <Part part={part} key={index} />
     ))}
   </>
 )
