@@ -9,12 +9,18 @@ const Statistics = ({ metrics }) => {
   return (
     <>
       <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {all}</p>
-      <p>average {average}</p>
-      <p>positive {positive ? positive : 0} %</p>
+      {!all ? (
+        <p>No feedback given</p>
+      ) : (
+        <>
+          <p>good {good}</p>
+          <p>neutral {neutral}</p>
+          <p>bad {bad}</p>
+          <p>all {all}</p>
+          <p>average {average}</p>
+          <p>positive {positive} %</p>
+        </>
+      )}
     </>
   )
 }
@@ -31,7 +37,7 @@ const App = () => {
       <button onClick={() => setGood((good = good + 1))}>good</button>
       <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
       <button onClick={() => setBad(bad + 1)}>bad</button>
-
+      
       <Statistics metrics={{ good, neutral, bad }} />
     </>
   )
