@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
-import PersonForm from "./PersonForm"
-import Persons from "./Persons"
+import PersonForm from "./components/PersonForm"
+import Persons from "./components/Persons"
 import axios from "axios"
+import { getAll } from "./services/notes"
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -9,7 +10,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("")
 
   useEffect(() => {
-    axios("http://localhost:3001/persons").then((response) =>
+    getAll().then((response) =>
       setPersons(response.data)
     )
   }, [])
