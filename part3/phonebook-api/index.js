@@ -38,8 +38,14 @@ app.get("/api/persons", (request, response) => {
 app.get("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id)
   const person = persons.find((note) => note.id === id)
-  if (!person) response.status(404)
+  if (!person) response.status(404).end()
   response.json(person)
+})
+
+app.delete("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id)
+  persons = persons.filter((note) => note.id !== id)
+  response.status(204).end()
 })
 
 app.listen(PORT, () => {
