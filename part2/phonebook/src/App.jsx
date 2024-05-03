@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react"
 import PersonForm from "./components/PersonForm"
 import Persons from "./components/Persons"
-import axios from "axios"
 import { createNote, getAllNotes } from "./services/notes"
+import Notification from "./components/Notification"
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     getAllNotes().then((response) => setPersons(response.data))
@@ -23,7 +24,11 @@ const App = () => {
       name: newName,
       number: newNumber,
       id: Number(lastDbId) + 1,
-    }).then((response) => setPersons([...persons, response.data]))
+    }).then((response) => {
+      setPersons([...persons, response.data])
+      setErrorMessage(`Added ${response.data.name}`)
+      setTimeout(() => setErrorMessage(null), 5000)
+    })
 
     setNewName("")
     setNewNumber("")
@@ -32,6 +37,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <PersonForm
         handleAddNote={handleAddNote}
         newName={newName}
