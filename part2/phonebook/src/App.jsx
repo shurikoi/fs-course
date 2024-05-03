@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import PersonForm from "./components/PersonForm"
 import Persons from "./components/Persons"
 import axios from "axios"
-import { getAll } from "./services/notes"
+import { createNote, getAllNotes } from "./services/notes"
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,9 +10,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("")
 
   useEffect(() => {
-    getAll().then((response) =>
-      setPersons(response.data)
-    )
+    getAllNotes().then((response) => setPersons(response.data))
   }, [])
 
   const handleAddNote = (event) => {
@@ -21,15 +19,12 @@ const App = () => {
     const lastDbId = persons.slice(-1)[0]?.id
 
     if (isUnique) return alert(`${newName} is already added to phonebook`)
+    createNote({
+      name: newName,
+      number: newNumber,
+      id: Number(lastDbId) + 1,
+    }).then((response) => setPersons([...persons, response.data]))
 
-    axios
-      .post("http://localhost:3001/persons", {
-        name: newName,
-        number: newNumber,
-        id: lastDbId + 1,
-      })
-
-    setPersons([...persons, { name: newName, number: newNumber }])
     setNewName("")
     setNewNumber("")
   }
