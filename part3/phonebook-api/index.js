@@ -2,6 +2,8 @@ const express = require("express")
 const app = express()
 const PORT = 3001
 
+app.use(express.json())
+
 let persons = [
   {
     id: 1,
@@ -25,27 +27,55 @@ let persons = [
   },
 ]
 
-app.get("/info", (request, response) => {
-  response.send(
+const generateId = () => {
+  return Math.floor(Math.random() * 10 ** 10)
+}
+
+app.get("/info", (req, res) => {
+  res.send(
     `<p>Phonebook has info for ${persons.length} people</p><p>${new Date()}</p>`
   )
 })
 
-app.get("/api/persons", (request, response) => {
-  response.json(persons)
+app.get("/api/persons", (req, res) => {
+  res.json(persons)
 })
 
-app.get("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id)
+app.get("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id)
   const person = persons.find((note) => note.id === id)
-  if (!person) response.status(404).end()
-  response.json(person)
+  if (!person) res.status(404).end()
+  res.json(person)
 })
 
-app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id)
+app.delete("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id)
   persons = persons.filter((note) => note.id !== id)
-  response.status(204).end()
+  res.status(204).end()
+})
+
+app.post("/api/persons/", (req, res) => {
+  const { name, number } = req.body
+  const isNameUnique = persons.find((note) => note.name === name)
+
+  if (!(name && number))
+    res.status(400).json({
+      error: "some field(s) are missing",
+    })
+
+  if (!isNameUnique)
+    res.status(400).json({
+      error: "name must be unique",
+    })
+
+  const person = {
+    id: generateId(),
+    name,
+    number,
+  }
+
+  persons.push(person)
+  res.json(person)
 })
 
 app.listen(PORT, () => {
