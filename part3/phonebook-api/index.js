@@ -1,8 +1,10 @@
 const express = require("express")
 const app = express()
 const PORT = 3001
+const morgan = require("morgan")
 
 app.use(express.json())
+app.use(morgan("tiny"))
 
 let persons = [
   {
@@ -63,7 +65,7 @@ app.post("/api/persons/", (req, res) => {
       error: "some field(s) are missing",
     })
 
-  if (!isNameUnique)
+  if (isNameUnique)
     res.status(400).json({
       error: "name must be unique",
     })
