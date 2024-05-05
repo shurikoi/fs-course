@@ -38,52 +38,54 @@ const generateId = () => {
   return Math.floor(Math.random() * 10 ** 10)
 }
 
-app.get("/info", (req, res) => {
-  Person.countDocuments({}).then((length) =>
-    res.send(
-      `<p>Phonebook has info for ${length} people</p><p>${new Date()}</p>`
-    )
-  )
+app.get("/info", async (req, res) => {
+  const length = await Person.countDocuments({})
+  res.send(`<p>Phonebook has info for ${length} people</p><p>${new Date()}</p>`)
 })
 
-app.get("/api/persons", (req, res) => {
-  Person.find({}).then((persons) => res.json(persons))
+app.get("/api/persons", async (req, res) => {
+  const persons = await Person.find({})
+  res.json(persons)
 })
 
-app.get("/api/persons/:id", (req, res) => {
+app.get("/api/persons/:id", async (req, res) => {
   const id = req.params.id
-  Person.findOne({ _id: id }).then((person) => res.json(person))
+  // server stops when error occurs with request
+  const person = await Person.findOne({ _id: id })
+  res.json(person)
 })
 
-// all the routes below needs an update !!
-app.delete("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id)
-  persons = persons.filter((note) => note.id !== id)
-  res.status(204).end()
-})
-
-app.post("/api/persons/", (req, res) => {
+app.post("/api/persons/", async (req, res) => {
   const { name, number } = req.body
-  const isNameUnique = persons.find((note) => note.name === name)
+  const findName = await Person.findOne({ name })
+  let isNameExists = !!findName
 
   if (!(name && number))
     res.status(400).json({
       error: "some field(s) are missing",
     })
 
-  if (isNameUnique)
+  if (isNameExists)
     res.status(400).json({
       error: "name must be unique",
     })
 
-  const person = {
-    id: generateId(),
-    name,
-    number,
-  }
+  const person = await Person.insertMany([
+    {
+      name,
+      number
+    }
+  ])
 
-  persons.push(person)
-  res.json(person)
+  res.json(person[0])
+})
+
+
+// all the routes below needs an update !!
+app.delete("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id)
+  persons = persons.filter((note) => note.id !== id)
+  res.status(204).end()
 })
 
 app.listen(PORT, () => {
