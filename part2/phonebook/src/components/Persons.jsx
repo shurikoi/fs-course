@@ -1,10 +1,8 @@
 import { deleteNote } from "../services/notes"
 
 const handleDeleteNote = ({ name, id }) => {
-  if (window.confirm(`Delete ${name}`)) {
+  if (window.confirm(`Delete ${name}`))
     deleteNote(id)
-    .then(response => location.reload())
-  }
 }
 
 const Persons = ({ persons }) =>

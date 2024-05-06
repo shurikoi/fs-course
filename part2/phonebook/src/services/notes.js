@@ -6,4 +6,4 @@ export const getAllNotes = async () => await axios(baseUrl)
 export const createNote = async (note) => await axios.post(baseUrl, note)
 
 export const deleteNote = async (id) =>
-  await axios.delete(`${baseUrl}${id}`)
+  await axios.delete(`${baseUrl}/${id}`)

@@ -12,6 +12,7 @@ const App = () => {
 
   useEffect(() => {
     getAllNotes().then((response) => setPersons(response.data))
+    console.log(persons)
   }, [])
 
   const handleAddNote = (event) => {
@@ -22,8 +23,7 @@ const App = () => {
     if (isUnique) return alert(`${newName} is already added to phonebook`)
     createNote({
       name: newName,
-      number: newNumber,
-      id: Number(lastDbId) + 1,
+      number: newNumber
     }).then((response) => {
       setPersons([...persons, response.data])
       setErrorMessage(`Added ${response.data.name}`)
