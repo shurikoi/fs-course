@@ -12,39 +12,35 @@ test('dummy returns one', () => {
 describe('total likes', () => {
   const listWithOneBlog = [
     {
-      _id: '5a422aa71b54a676234d17f8',
+      id: '5a422aa71b54a676234d17f8',
       title: 'Go To Statement Considered Harmful',
       author: 'Edsger W. Dijkstra',
       url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
-      likes: 5,
-      __v: 0,
+      likes: 5
     },
   ]
 
   const listWithManyBlogs = [
     {
-      _id: '5a422aa71b54a676234d17f8',
+      id: '5a422aa71b54a676234d17f8',
       title: 'Go To Statement Considered Harmful',
       author: 'Edsger W. Dijkstra',
       url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
-      likes: 5,
-      __v: 0,
+      likes: 5
     },
     {
-      _id: '5a422aa71b54a6p90udns130',
+      id: '5a422aa71b54a6p90udns130',
       title: 'How to stay positive during the day',
       author: 'Edsger W. Dijkstra',
       url: 'https://homepages.cwi.nl/~storm/teaching/reader/dskjfu83.pdf',
-      likes: 2,
-      __v: 0,
+      likes: 2
     },
     {
-      _id: '5a422aa71b54a6gy65te67d1',
+      id: '5a422aa71b54a6gy65te67d1',
       title: 'How to manage stress',
       author: 'Edsger W. Dijkstra',
       url: 'https://homepages.cwi.nl/~storm/teaching/reader/kldjf82.pdf',
-      likes: 10,
-      __v: 0,
+      likes: 10
     },
   ]
 
