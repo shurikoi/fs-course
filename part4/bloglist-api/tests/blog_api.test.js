@@ -73,8 +73,8 @@ describe('when there is initially some notes saved', () => {
   })
 })
 
-describe.only('updating a blog', () => {
-  test.only('succeds with status code 200 if id and body is valid', async () => {
+describe('updating a blog', () => {
+  test('succeds with status code 200 if id and body is valid', async () => {
     const blogs = await blogsInDb()
     const blogToUpdate = blogs[0]
     console.log(blogToUpdate)
